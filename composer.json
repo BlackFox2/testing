@@ -1,0 +1,19 @@
+{
+  "name": "blackfox2/testing",
+  "type": "library",
+  "description": "Testing classes for BlackFox2 project",
+  "autoload": {
+    "classmap": [
+      "src/"
+    ]
+  },
+  "require": {
+    "blackfox2/common": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/BlackFox2/common"
+    }
+  ]
+}

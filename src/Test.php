@@ -5,7 +5,7 @@ namespace BlackFox2;
 abstract class Test {
 
 	/** @var string name of the set of tests */
-	public $name = 'Unknown tests';
+	public $name;
 
 	/** @var array $tests key — method name, value — test description */
 	public $tests = [];
@@ -47,12 +47,14 @@ abstract class Test {
 		} catch (Exception $error) {
 			$result = [
 				'STATUS' => 'FAILURE',
-				'RESULT' => $error->getMessages(),
+				'RESULT' => count($error->getMessages()) === 1 ? $error->getMessage() : $error->getMessages(),
+				'TRACE'  => $error->getTraceAsString(),
 			];
 		} catch (\Exception $error) {
 			$result = [
 				'STATUS' => 'FAILURE',
 				'RESULT' => $error->getMessage(),
+				'TRACE'  => $error->getTraceAsString(),
 			];
 		}
 		$time2 = microtime(true);
@@ -81,6 +83,7 @@ abstract class Test {
 	}
 
 	public function RunAllForClient() {
+		echo "=======================================================================================\r\n";
 		echo "Test: {$this->name}\r\n";
 		echo "\r\n";
 		$success = 0;
@@ -92,12 +95,12 @@ abstract class Test {
 			} else {
 				echo "FAILURE - {$result['NAME']} ({$result['TIME']}):\r\n";
 				echo is_array($result['RESULT']) ? print_r($result['RESULT'], true) : "\t" . $result['RESULT'];
+				echo "\r\n" . print_r($result['TRACE'], true);
 				echo "\r\n";
 				$failure++;
 			}
 		}
 		echo "\r\n";
 		echo "Summary: {$success} SUCCESSES | {$failure} FAILURES \r\n";
-		echo "=======================================================================================\r\n";
 	}
 }
